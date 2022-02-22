@@ -9,7 +9,22 @@
 
     <p>{{ $post->content }}</p>
 
+    {{-- Buttons --}}
+    <div class="d-flex mt-4">
+
+        <div class="mr-2">
+            <a href="{{ route('admin.posts.edit', ['post' => $post->id]) }}" class="btn btn-warning">Edit Post</a>
+        </div>
     
+        <div>
+            <form action="{{ route('admin.posts.destroy', ['post' => $post->id]) }}" method="post">
+                @csrf
+                @method('DELETE')
+    
+                <button class="btn btn-danger">Delete Post</button>
+            </form>
+        </div>
+    </div>
 
 </section>
 @endsection
