@@ -12,7 +12,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $post->title }}</h5>
                             <p class="card-text">{{ Str::substr($post->content, 0, 70) }}...</p>
-                            <a href="{{ route('admin.posts.show', ['post' => $post->id]) }}" class="btn btn-success">Leggi il post</a>
+                            <a href="{{ route('admin.posts.show', ['post' => $post->id]) }}" class="btn btn-primary">Read the Post</a>
                         </div>
                     </div>
                 </div>
