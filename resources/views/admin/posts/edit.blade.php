@@ -19,17 +19,29 @@
             @csrf
             @method('PUT')
 
-            <div class="mb-3 mt-4">
+            <div class="mb-4 mt-4">
               <label for="title" class="form-label">Title</label>
               <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $post->title) }}">
             </div>
 
-            <div class="mb-3">
+            <div class="mb-4">
+                <label for="category_id" class="form-label">Category</label>
+                <div>
+                    <select class="form-select" name="category_id" id="category_id">
+                        <option value="">Nessuna</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id', $post->category_id) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-4">
                 <label for="content" class="form-label">Content</label>
                 <textarea class="form-control" name="content" id="content" cols="30" rows="10">{{ old('content', $post->content) }}</textarea>
             </div>
 
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" class="btn btn-success">Save Changes</button>
           </form>
     </section>
 @endsection

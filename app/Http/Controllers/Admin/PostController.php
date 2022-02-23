@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Str;
+use App\Category;
 
 class PostController extends Controller
 {
@@ -28,7 +29,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -77,8 +80,9 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
+        $categories = Category::all();
 
-        return view('admin.posts.edit', compact('post'));
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -100,7 +104,7 @@ class PostController extends Controller
         // Aggiorno lo Slug soltanto se si cambia il titolo
         if($form_data['title'] != $post->title) {
             // Richiamo funzione per Slug univoco
-            $form_data['slug'] = $this->getUniqueSlugFromTitle($form_data['title']);
+            $form_data['slug'] = Post::getUniqueSlugFromTitle($form_data['title']);
         }
         
         $post->update($form_data);
@@ -127,29 +131,8 @@ class PostController extends Controller
     protected function getValidationRules() {
         return [
             'title' => 'required|max:250',
-            'content' => 'required|max:60000'
+            'content' => 'required|max:60000',
+            'category_id' => 'exists:categories,id|nullable'
         ];
-    }
-
-
-    // Funzione per Slug univoco
-    protected function getUniqueSlugFromTitle($title) {
-        
-        // Check se esiste già un post con questo slug
-        $slug = Str::slug($title);
-        $slug_base = $slug;
-        
-        $post_found = Post::where('slug', '=', $slug)->first();
-        $counter = 1;
-        while($post_found) {
-
-            // Se esiste, si aggiunge 1 allo slug
-            // e così via se esiste già 1 provo con 2
-            $slug = $slug_base . '-' . $counter;
-            $post_found = Post::where('slug', '=', $slug)->first();
-            $counter++;
-        }
-
-        return $slug;
     }
 }

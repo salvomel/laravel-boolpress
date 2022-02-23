@@ -5,7 +5,9 @@
 
     <h1>{{ $post->title }}</h1>
 
-    <h5 class="mt-4 mb-4">Slug: {{ $post->slug }}</h5>
+    <h5 class="mt-4 mb-2">Slug: {{ $post->slug }}</h5>
+
+    <h5 class="mb-4">Category: {{ $post->category ? $post->category->name : 'nessuna' }}</h5>
 
     <p>{{ $post->content }}</p>
 
