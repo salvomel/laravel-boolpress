@@ -51,7 +51,7 @@ class PostController extends Controller
         $new_post->fill($form_data);
         
         // Richiamo funzione per Slug univoco
-        $new_post->slug = $this->getUniqueSlugFromTitle($form_data['title']);
+        $new_post->slug = Post::getUniqueSlugFromTitle($form_data['title']);
 
         $new_post->save();
 
