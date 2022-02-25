@@ -18,6 +18,10 @@ class Post extends Model
         return $this->belongsTo('App\Category');
     }
 
+    public function tags() {
+        return $this->belongsToMany('App\Tag');
+    }
+
     // Funzione per Slug univoco
     public static function getUniqueSlugFromTitle($title) {
         
