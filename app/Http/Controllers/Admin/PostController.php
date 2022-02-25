@@ -17,8 +17,9 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $posts = Post::all();
+    {   
+        // Paginate max post in index
+        $posts = Post::paginate(6);
 
         return view('admin.posts.index', compact('posts'));
     }
@@ -136,6 +137,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
+        $post->tags()->sync([]);
         $post->delete();
 
         return redirect()->route('admin.posts.index');

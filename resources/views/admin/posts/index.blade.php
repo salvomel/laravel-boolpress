@@ -19,5 +19,10 @@
                 
             @endforeach
         </div>
+
+        {{-- Links altre pagine --}}
+        <div class="mt-4">
+            {{ $posts->links() }}
+        </div>
     </section>
 @endsection
