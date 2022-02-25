@@ -2,13 +2,21 @@
 
 @section('content')
 <section>
-
+    
     <h1>{{ $post->title }}</h1>
 
     <h5 class="mt-4 mb-2">Slug: {{ $post->slug }}</h5>
 
-    <h5 class="mb-4">Category: {{ $post->category ? $post->category->name : 'nessuna' }}</h5>
+    <h5 class="mb-2">Category: {{ $post->category ? $post->category->name : 'nessuna' }}</h5>
 
+    <h5 class="mb-4">Tags:
+        @forelse ($post->tags as $tag)
+            {{ $tag->name }}{{ $loop->last ? '' : ', ' }}
+        @empty
+            nessuno
+        @endforelse
+    </h5>
+    
     <p>{{ $post->content }}</p>
 
     {{-- Buttons --}}

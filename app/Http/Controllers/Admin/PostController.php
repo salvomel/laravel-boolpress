@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Str;
 use App\Category;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -30,8 +31,9 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.posts.create', compact('categories'));
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -54,6 +56,11 @@ class PostController extends Controller
         $new_post->slug = Post::getUniqueSlugFromTitle($form_data['title']);
 
         $new_post->save();
+
+        // Per aggiungere ed eliminare dei record nella tabella pivot uso sync
+        if(isset($form_data['tags'])) {
+            $new_post->tags()->sync($form_data['tags']);
+        }
 
         return redirect()->route('admin.posts.show', ['post' => $new_post->id]);
     }
@@ -132,7 +139,8 @@ class PostController extends Controller
         return [
             'title' => 'required|max:250',
             'content' => 'required|max:60000',
-            'category_id' => 'exists:categories,id|nullable'
+            'category_id' => 'exists:categories,id|nullable',
+            'tags' => 'exists:tags,id'
         ];
     }
 }
