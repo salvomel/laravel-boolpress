@@ -15,15 +15,18 @@
             </div>
         @endif
 
+        {{-- Form --}}
         <form action="{{ route('admin.posts.update', ['post' => $post->id] ) }}" method="post">
             @csrf
             @method('PUT')
 
+            {{-- Titolo --}}
             <div class="mb-4 mt-4">
               <label for="title" class="form-label">Title</label>
               <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $post->title) }}">
             </div>
 
+            {{-- Categorie --}}
             <div class="mb-4">
                 <label for="category_id" class="form-label">Category</label>
                 <div>
@@ -36,6 +39,26 @@
                 </div>
             </div>
 
+            {{-- Tags --}}
+            <div class="mb-4">
+                <h6>Tags</h6>
+                @foreach ($tags as $tag)
+                    <div class="form-check">
+                        {{-- If/else per checkbox e funzione old --}}
+                        @if ($errors->any())
+                            <input {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }} class="form-check-input" type="checkbox" name="tags[]" value="{{ $tag->id }}" id="tag-{{ $tag->id }}">
+                        @else
+                            <input {{ $post->tags->contains($tag) ? 'checked' : '' }} class="form-check-input" type="checkbox" name="tags[]" value="{{ $tag->id }}" id="tag-{{ $tag->id }}">
+                        @endif
+                        
+                        <label class="form-check-label" for="tag-{{ $tag->id }}">
+                        {{ $tag->name }}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+
+            {{-- Contenuto --}}
             <div class="mb-4">
                 <label for="content" class="form-label">Content</label>
                 <textarea class="form-control" name="content" id="content" cols="30" rows="10">{{ old('content', $post->content) }}</textarea>
