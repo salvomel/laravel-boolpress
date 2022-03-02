@@ -1927,6 +1927,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Posts',
   data: function data() {
@@ -1941,6 +1943,14 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('api/posts').then(function (response) {
         _this.posts = response.data.results;
       });
+    },
+    // Funzione per troncare testo a dato numero di carartteri
+    truncate: function truncate(text, maxTextNumber) {
+      if (text.length > maxTextNumber) {
+        return text.substr(0, maxTextNumber) + '...';
+      }
+
+      return text;
     }
   },
   created: function created() {
@@ -2459,29 +2469,31 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("h1", [_vm._v("Posts")]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "row row-cols-3" },
-      _vm._l(_vm.posts, function (post) {
-        return _c("div", { key: post.id, staticClass: "col" }, [
-          _c("div", { staticClass: "card my-2" }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c("h4", { staticClass: "card-title" }, [
-                _vm._v(_vm._s(post.title)),
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "card-text" }, [
-                _vm._v(_vm._s(post.content)),
+  return _c("section", [
+    _c("div", { staticClass: "container" }, [
+      _c("h1", { staticClass: "mt-2" }, [_vm._v("Posts")]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "row row-cols-3" },
+        _vm._l(_vm.posts, function (post) {
+          return _c("div", { key: post.id, staticClass: "col" }, [
+            _c("div", { staticClass: "card my-2" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(post.title)),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "card-text" }, [
+                  _vm._v(_vm._s(_vm.truncate(post.content, 70))),
+                ]),
               ]),
             ]),
-          ]),
-        ])
-      }),
-      0
-    ),
+          ])
+        }),
+        0
+      ),
+    ]),
   ])
 }
 var staticRenderFns = []

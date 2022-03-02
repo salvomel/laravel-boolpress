@@ -1,20 +1,22 @@
 <template>
-    <div class="container">
-        <h1>Posts</h1>
+    <section>
+        <div class="container">
+            <h1 class="mt-2">Posts</h1>
 
-        <div class="row row-cols-3">
-            <div v-for="post in posts" :key="post.id" class="col">
+            <div class="row row-cols-3">
+                <div v-for="post in posts" :key="post.id" class="col">
                     <div class="card my-2">
                         
                         <div class="card-body">
                             <h4 class="card-title">{{ post.title }}</h4>
-                            <p class="card-text">{{ post.content }}</p>
+                            <p class="card-text">{{ truncate(post.content, 70) }}</p>
                         </div>
                         
                     </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -32,6 +34,13 @@ export default {
                 this.posts = response.data.results;
             });
         },
+        // Funzione per troncare testo a dato numero di carartteri
+        truncate: function(text, maxTextNumber) {
+            if(text.length > maxTextNumber) {
+                return text.substr(0, maxTextNumber) + '...';
+            }
+            return text;
+        }
     },
     created: function() {
         this.getPosts();
