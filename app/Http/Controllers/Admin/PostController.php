@@ -8,6 +8,7 @@ use App\Post;
 use Illuminate\Support\Str;
 use App\Category;
 use App\Tag;
+use Illuminate\Support\Carbon;
 
 class PostController extends Controller
 {
@@ -75,6 +76,8 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id);
+
+        $now = Carbon::now();
 
         return view('admin.posts.show', compact('post'));
     }

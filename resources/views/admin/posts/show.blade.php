@@ -5,6 +5,9 @@
     
     <h1>{{ $post->title }}</h1>
 
+    <h5 class="mt-4 mb-2 ">Created: {{ $post->created_at->format('j F Y - H:i') }}</h5>
+    <h5 class="mb-4 ">Updated: {{ $post->updated_at->diffForHumans() }}</h5>
+
     <h5 class="mt-4 mb-2">Slug: {{ $post->slug }}</h5>
 
     <h5 class="mb-2">Category: {{ $post->category ? $post->category->name : 'nessuna' }}</h5>
