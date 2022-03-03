@@ -1,11 +1,9 @@
 <template>
-    <div>
-        <section>
-            <div class="container">
-                <h1>Welcome to Homepage</h1>
-            </div>
-        </section>
-    </div>
+    <section>
+        <div class="container">
+            <h1 class="my-4">Welcome to Homepage</h1>
+        </div>
+    </section>
 </template>
 
 <script>

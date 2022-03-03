@@ -1,11 +1,11 @@
 <template>
     <section>
         <div class="container">
-            <h1 class="mt-2">Posts</h1>
+            <h1 class="my-4">Posts</h1>
 
             <div class="row row-cols-3">
                 <div v-for="post in posts" :key="post.id" class="col">
-                    <div class="card my-2">
+                    <div class="card mb-4">
                         
                         <div class="card-body">
                             <h4 class="card-title">{{ post.title }}</h4>
