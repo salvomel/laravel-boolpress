@@ -32,6 +32,10 @@ export default {
                     name: 'blog',
                     label: 'Blog'
                 },
+                {
+                    name: 'about',
+                    label: 'About'
+                }
             ],
         };
     }
