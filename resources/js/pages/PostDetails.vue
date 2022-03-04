@@ -2,7 +2,21 @@
     <section>
         <div class="container">
             <h1 class="my-4">{{ post.title }}</h1>
-            <p>{{ post.content }}</p>
+
+            <h6 v-if="post.category">Category: {{ post.category.name }}</h6>
+            
+            <!-- TAGS -->
+            <div v-if="post.tags.length > 0">
+                <router-link 
+                    v-for="tag in post.tags" :key="tag.id"
+                    class="badge bg-success text-dark mr-1"
+                    :to="{ name: 'tag-details', params: { slug: tag.slug } }"
+                >
+                    {{ tag.name }}
+                </router-link>
+            </div>
+
+            <p class="mt-4">{{ post.content }}</p>
         </div>
     </section>
 </template>
