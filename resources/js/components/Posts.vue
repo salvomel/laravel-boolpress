@@ -11,7 +11,9 @@
                             <h4 class="card-title">{{ post.title }}</h4>
                             <p class="card-text">{{ truncate(post.content, 70) }}</p>
                         </div>
-                        
+                        <div class="card-body">
+                            <router-link class="btn btn-outline-primary" :to="{ name: 'post-details', params: { slug: post.slug} }">Read article</router-link>
+                        </div>
                     </div>
                 </div>
             </div>

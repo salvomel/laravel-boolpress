@@ -6,7 +6,7 @@
                 <h3>Nothing found here</h3>
             </div>
 
-            <router-link class="nav-link" :to="{ name: 'blog' }">Come back to Blog</router-link>
+            <router-link class="btn btn-outline-success" :to="{ name: 'blog' }">Come back to Blog Page</router-link>
         </div>
     </section>
 </template>
