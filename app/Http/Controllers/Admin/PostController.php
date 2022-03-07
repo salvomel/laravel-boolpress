@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
-use Illuminate\Support\Str;
 use App\Category;
 use App\Tag;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
 
 class PostController extends Controller
@@ -56,6 +57,14 @@ class PostController extends Controller
         
         // Richiamo funzione per Slug univoco
         $new_post->slug = Post::getUniqueSlugFromTitle($form_data['title']);
+
+        // Gestione immagine 
+        if(isset($form_data['image'])) {
+            // Metto immagine nella cartella di storage
+            $img_path = Storage::put('post_covers', $form_data['image']);
+            // Salvo il path al file nella colonna cover del post
+            $new_post->cover = $img_path;
+        }
 
         $new_post->save();
 
@@ -118,6 +127,20 @@ class PostController extends Controller
             // Richiamo funzione per Slug univoco
             $form_data['slug'] = Post::getUniqueSlugFromTitle($form_data['title']);
         }
+
+        // Gestione immagine
+        if($form_data['image']) {
+            // Cancello vecchia immagine
+            if($post->cover) {
+                Storage::delete($post->cover);
+            }
+
+            // Upload nuova immagine
+            $img_path = Storage::put('post_covers', $form_data['image']);
+
+            // Salvo nella colonna cover il path al nuovo file
+            $form_data['cover'] = $img_path;
+        }
         
         $post->update($form_data);
 
@@ -141,6 +164,9 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $post->tags()->sync([]);
+        if($post->cover) {
+            Storage::delete($post->cover);
+        }
         $post->delete();
 
         return redirect()->route('admin.posts.index');
@@ -153,7 +179,8 @@ class PostController extends Controller
             'title' => 'required|max:250',
             'content' => 'required|max:60000',
             'category_id' => 'exists:categories,id|nullable',
-            'tags' => 'exists:tags,id'
+            'tags' => 'exists:tags,id',
+            'image' => 'image|max:512'
         ];
     }
 }

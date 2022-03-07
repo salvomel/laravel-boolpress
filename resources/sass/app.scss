@@ -6,3 +6,11 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+img {
+    max-width: 500px;
+}
+
+.current-image img {
+    width: 200px;
+}

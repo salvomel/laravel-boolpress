@@ -19,6 +19,13 @@
             nessuno
         @endforelse
     </h5>
+
+    {{-- Immagine --}}
+    @if ($post->cover)
+        <div>
+            <img src="{{ asset('storage/' . $post->cover) }}" alt="{{ $post->title }}">
+        </div>
+    @endif
     
     <p>{{ $post->content }}</p>
 

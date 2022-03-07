@@ -6,7 +6,7 @@
             <h6 v-if="post.category">Category: {{ post.category.name }}</h6>
             
             <!-- TAGS -->
-            <div v-if="post.tags.length > 0">
+            <div v-if="post.tags && post.tags.length > 0">
                 <router-link 
                     v-for="tag in post.tags" :key="tag.id"
                     class="badge bg-success text-dark mr-1"
@@ -26,7 +26,7 @@ export default {
     name: 'PostDetails',
     data: function() {
         return {
-            post: false
+            post: {}
         };
     },
     methods: {
