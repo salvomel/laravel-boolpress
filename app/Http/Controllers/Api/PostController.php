@@ -10,6 +10,13 @@ class PostController extends Controller
 {
     public function index() {
         $posts = Post::all();
+
+         // Gestione immagine cover di ogni post modificando attributo in un url assoluto
+         foreach($posts as $post) {
+            if($post->cover) {
+                $post->cover = url('storage/' . $post->cover);
+            }
+        }
         
         return response()->json([
             'success' => true,
@@ -19,6 +26,11 @@ class PostController extends Controller
 
     public function show($slug) {
         $post = Post::where('slug','=', $slug)->with(['category', 'tags'])->first();
+
+        // Gestione immagine
+        if($post->cover) {
+            $post->cover = url('storage/' . $post->cover);
+        }
 
         if($post) {
             return response()->json([
