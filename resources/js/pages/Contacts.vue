@@ -35,7 +35,7 @@
                 </div>
 
                 <!-- @click.prevent evita il refresh della pagina al click -->
-                <button type="submit" @click.prevent="sendMessage()" class="btn btn-primary">Submit</button>
+                <button :disabled="disabled" type="submit" @click.prevent="sendMessage()" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </section>
@@ -50,11 +50,15 @@ export default {
             name: '',
             message: '',
             success: false,
-            errors: {}
+            errors: {},
+            disabled: false
         };
     },
     methods: {
         sendMessage: function() {
+            // Disabilito pulsante submit prima della fine fine della chiamata axios
+            this.disabled = true;
+
             axios.post('/api/leads/store', {
                 // Non li metto dentro params perchè uso 'post'
                 email: this.email,
@@ -74,6 +78,8 @@ export default {
                     this.success = false;
                     this.errors = response.data.errors
                 }
+
+                this.disabled = false;
             });
         }
     }
